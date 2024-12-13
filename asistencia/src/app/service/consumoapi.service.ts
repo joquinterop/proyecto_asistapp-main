@@ -10,7 +10,7 @@ export class ConsumoapiService {
   // Ajuste de httpOptions sin la cabecera Access-Control-Allow-Origin
   httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
   
-  apiURL = 'http://192.168.100.28:5001';  
+  apiURL = 'https://r6lw477p-5001.brs.devtunnels.ms/';  
 
   constructor(private httpClient: HttpClient) { }
 
