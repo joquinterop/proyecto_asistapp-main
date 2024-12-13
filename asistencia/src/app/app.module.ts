@@ -10,17 +10,19 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent], // Componentes declarados en la app principal
   imports: [
-    HttpClientModule,
     BrowserModule,
-    IonicModule.forRoot(),
+    IonicModule.forRoot(), // Inicialización de Ionic
     AppRoutingModule,
-    QRCodeModule,       // Para generar QR (opcional, si lo usas)
-    ZXingScannerModule  // Para escanear QR
+    HttpClientModule, // Para consumo de APIs
+    QRCodeModule, // Módulo opcional para generar códigos QR
+    ZXingScannerModule // Módulo necesario para el escáner QR
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
-  bootstrap: [AppComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]  // Añadir CUSTOM_ELEMENTS_SCHEMA aquí
+  providers: [
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy } // Estrategia de rutas en Ionic
+  ],
+  bootstrap: [AppComponent], // Componente raíz de la aplicación
+  schemas: [CUSTOM_ELEMENTS_SCHEMA] // Permite usar elementos personalizados como <zxing-scanner>
 })
 export class AppModule {}

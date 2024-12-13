@@ -4,12 +4,10 @@
   </ion-toolbar>
 </ion-header>
 
-<br>
-
 <ion-content>
   <!-- Imagen del Estudiante -->
   <div class="student-image">
-    <img [src]="fotoPerfil" alt="Foto del Estudiante">
+    <img [src]="fotoPerfil" alt="Foto del Estudiante" *ngIf="fotoPerfil" />
   </div>
 
   <!-- Mostramos los datos del estudiante -->
@@ -24,9 +22,12 @@
       <h2>Escanea el código QR</h2>
     </ion-text>
 
-    <!-- Contenedor ajustado para el escaneo de códigos QR -->
+    <!-- Contenedor para el escaneo de QR -->
     <div class="qr-camera">
-      <zxing-scanner (scanSuccess)="onCodeResult($event)"></zxing-scanner>
+      <zxing-scanner 
+        (scanSuccess)="onCodeResult($event)"
+        [formats]="formats">
+      </zxing-scanner>
     </div>
   </div>
 </ion-content>

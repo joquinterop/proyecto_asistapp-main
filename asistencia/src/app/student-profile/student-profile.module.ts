@@ -9,12 +9,12 @@ import { ZXingScannerModule } from '@zxing/ngx-scanner'; // Importa el módulo d
 
 @NgModule({
   imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    StudentProfilePageRoutingModule,
-    ZXingScannerModule  // Asegúrate de agregar el módulo aquí
+    CommonModule,                  // Funcionalidades comunes de Angular
+    FormsModule,                   // Para trabajar con formularios
+    IonicModule,                   // Funcionalidades de Ionic
+    StudentProfilePageRoutingModule, // Rutas específicas de esta página
+    ZXingScannerModule             // Módulo necesario para el escáner de QR
   ],
-  declarations: [StudentProfilePage]
+  declarations: [StudentProfilePage] // Declara el componente StudentProfilePage
 })
 export class StudentProfilePageModule {}

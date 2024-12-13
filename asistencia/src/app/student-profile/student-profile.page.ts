@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConsumoapiService } from '../service/consumoapi.service'; 
 import { ToastController, AlertController } from '@ionic/angular';  
+import { BarcodeFormat } from '@zxing/browser';
 
 @Component({
   selector: 'app-student-profile',
@@ -9,11 +10,17 @@ import { ToastController, AlertController } from '@ionic/angular';
   styleUrls: ['./student-profile.page.scss'],
 })
 export class StudentProfilePage implements OnInit {
+  // Variables del perfil del estudiante
   nombre: string | undefined;
   receivedId: number | undefined;
   fotoPerfil: string | undefined;
   correo: string | undefined;
+
+  // Variables para el escaneo QR
   qrResultString: string | null = null;
+
+  // Formatos aceptados para el escaneo
+  formats: BarcodeFormat[] = [BarcodeFormat.QR_CODE];
 
   constructor(
     private router: Router,
@@ -22,7 +29,8 @@ export class StudentProfilePage implements OnInit {
     private alertController: AlertController  
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
+    // Configurar datos iniciales
     if (history.state) {
       this.nombre = history.state.nombre;
       this.receivedId = history.state.id;
@@ -36,7 +44,7 @@ export class StudentProfilePage implements OnInit {
     this.qrResultString = resultString;
 
     try {
-      // Convertimos el QR a JSON para obtener los datos
+      // Procesar los datos del QR
       const qrData = JSON.parse(resultString);
       const cursoId = qrData.curso_id;
       const asignatura = qrData.asignatura;
@@ -44,15 +52,11 @@ export class StudentProfilePage implements OnInit {
       const alumnoId = this.receivedId;
 
       if (alumnoId !== undefined && cursoId) {
-        // Primero, obtenemos el profesor ID basado en el curso ID
         this.consumoAPI.obtenerProfesorPorCurso(cursoId).subscribe(
           (profesorData: any) => {
             const profesorId = profesorData.profesor_id;
-
-            // Ahora que tenemos profesorId, actualizamos la asistencia
             this.consumoAPI.actualizarAsistencia(profesorId, cursoId, alumnoId).subscribe(
               async () => {
-                // Mostramos el mensaje de éxito con detalles
                 const toast = await this.toastController.create({
                   message: `Asistencia confirmada en ${asignatura} el día ${fecha}`,
                   duration: 3000,
@@ -60,7 +64,6 @@ export class StudentProfilePage implements OnInit {
                   color: 'success'
                 });
                 await toast.present();
-                console.log('Asistencia actualizada correctamente en el backend');
               },
               (error) => console.error('Error al actualizar asistencia:', error)
             );
@@ -77,6 +80,7 @@ export class StudentProfilePage implements OnInit {
     }
   }
 
+  // Método para cerrar sesión
   async cerrarSesion() {
     const alert = await this.alertController.create({
       header: 'Confirmar cierre de sesión',
